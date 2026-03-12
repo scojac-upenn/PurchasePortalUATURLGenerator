@@ -1,0 +1,203 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Course Picker → Copyable URL</title>
+  <style>
+    body { font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; margin: 24px; }
+    h1 { font-size: 18px; margin: 0 0 12px; }
+    .hint { color: #555; margin: 0 0 16px; }
+    table { border-collapse: collapse; width: 100%; max-width: 980px; }
+    th, td { border: 1px solid #ddd; padding: 10px; text-align: left; vertical-align: top; }
+    th { background: #f7f7f7; }
+    tbody tr { cursor: pointer; }
+    tbody tr:hover { background: #fafafa; }
+    tbody tr.selected { background: #eef6ff; }
+    .urlbox { max-width: 980px; margin-top: 16px; padding: 12px; border: 1px solid #ddd; border-radius: 8px; }
+    .row { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+    input[type="text"] { flex: 1; min-width: 300px; padding: 10px; border-radius: 6px; border: 1px solid #ccc; }
+    button { padding: 10px 12px; border-radius: 6px; border: 1px solid #ccc; background: #fff; cursor: pointer; }
+    button:hover { background: #f5f5f5; }
+    .status { color: #2a6; margin-left: 6px; min-height: 1em; }
+    .small { font-size: 12px; color: #666; margin-top: 8px; }
+    code { background: #f5f5f5; padding: 2px 4px; border-radius: 4px; }
+    .col-sel { width: 52px; }
+    .col-id { width: 140px; }
+  </style>
+</head>
+<body>
+  <h1>Purchase Portal UAT Course URL Generator</h1>
+  <p class="hint">Click a row below to generate a test URL for that course. The URL and can be copied/pasted into a new browser tab.</p>
+
+
+  <div class="urlbox">
+    <div class="row">
+      <label for="urlOut" style="min-width: 44px;">URL</label>
+      <input id="urlOut" type="text" readonly value="" />
+      <button id="copyBtn" type="button">Copy</button>
+      <span id="status" class="status" aria-live="polite"></span>
+    </div>
+    <div class="small">
+      Base URL: <code id="baseUrlLabel"></code>
+    </div>
+  </div>
+
+  <br><br>
+
+  <table id="courseTable" aria-label="Course table">
+    <thead>
+      <tr>
+        <th class="col-sel">Sel</th>
+        <th class="col-id">Course ID</th>
+        <th>Name</th>
+      </tr>
+    </thead>
+    <tbody>
+      <!-- Rows provided by user (including duplicates as given) -->
+      <tr data-id="AIBS" data-name="AI for Business">
+        <td><input type="radio" name="sel" aria-label="Select AIBS"></td><td>AIBS</td><td>AI for Business</td>
+      </tr>
+      <tr data-id="RBSC" data-name="Removing Barriers to Change in Organizations">
+        <td><input type="radio" name="sel" aria-label="Select RBSC"></td><td>RBSC</td><td>Removing Barriers to Change in Organizations</td>
+      </tr>
+      <tr data-id="MGSC" data-name="Managing in the Global Digital Economy">
+        <td><input type="radio" name="sel" aria-label="Select MGSC"></td><td>MGSC</td><td>Managing in the Global Digital Economy</td>
+      </tr>
+      <tr data-id="MTSC" data-name="Wharton Emerging Leaders Certificate - Engaging & Motivating Talent">
+        <td><input type="radio" name="sel" aria-label="Select MTSC"></td><td>MTSC</td><td>Wharton Emerging Leaders Certificate - Engaging &amp; Motivating Talent</td>
+      </tr>
+      <tr data-id="LMCP" data-name="Leadership and Management Certificate Program">
+        <td><input type="radio" name="sel" aria-label="Select LMCP"></td><td>LMCP</td><td>Leadership and Management Certificate Program</td>
+      </tr>
+      <tr data-id="DMCP" data-name="Digital Marketing Certificate Program">
+        <td><input type="radio" name="sel" aria-label="Select DMCP"></td><td>DMCP</td><td>Digital Marketing Certificate Program</td>
+      </tr>
+      <tr data-id="AASC" data-name="Asset Allocation">
+        <td><input type="radio" name="sel" aria-label="Select AASC"></td><td>AASC</td><td>Asset Allocation</td>
+      </tr>
+      <tr data-id="ICSK" data-name="Improving Communication Skills">
+        <td><input type="radio" name="sel" aria-label="Select ICSK"></td><td>ICSK</td><td>Improving Communication Skills</td>
+      </tr>
+      <tr data-id="SMSC" data-name="Strategic Management: Competitive & Corporate Strategy">
+        <td><input type="radio" name="sel" aria-label="Select SMSC"></td><td>SMSC</td><td>Strategic Management: Competitive &amp; Corporate Strategy</td>
+      </tr>
+      <tr data-id="MTSC" data-name="Managing and Motivating Talent">
+        <td><input type="radio" name="sel" aria-label="Select MTSC (Managing and Motivating Talent)"></td><td>MTSC</td><td>Managing and Motivating Talent</td>
+      </tr>
+      <tr data-id="LCSC" data-name="Leadership in the 21st Century">
+        <td><input type="radio" name="sel" aria-label="Select LCSC"></td><td>LCSC</td><td>Leadership in the 21st Century</td>
+      </tr>
+      <tr data-id="MFSC" data-name="Managing the Global Firm">
+        <td><input type="radio" name="sel" aria-label="Select MFSC"></td><td>MFSC</td><td>Managing the Global Firm</td>
+      </tr>
+      <tr data-id="ELCP" data-name="Executive Leadership Certificate">
+        <td><input type="radio" name="sel" aria-label="Select ELCP"></td><td>ELCP</td><td>Executive Leadership Certificate</td>
+      </tr>
+      <tr data-id="FTRI" data-name="Financial Technologies and Regulatory Implications">
+        <td><input type="radio" name="sel" aria-label="Select FTRI"></td><td>FTRI</td><td>Financial Technologies and Regulatory Implications</td>
+      </tr>
+      <tr data-id="FPSC" data-name="Fundamentals of Portfolio Management">
+        <td><input type="radio" name="sel" aria-label="Select FPSC"></td><td>FPSC</td><td>Fundamentals of Portfolio Management</td>
+      </tr>
+      <tr data-id="AASC" data-name="Asset Allocation">
+        <td><input type="radio" name="sel" aria-label="Select AASC (duplicate)"></td><td>AASC</td><td>Asset Allocation</td>
+      </tr>
+      <tr data-id="INVP" data-name="Investment Products">
+        <td><input type="radio" name="sel" aria-label="Select INVP"></td><td>INVP</td><td>Investment Products</td>
+      </tr>
+      <tr data-id="DLCP" data-name="Digital Leadership Certificate Program">
+        <td><input type="radio" name="sel" aria-label="Select DLCP"></td><td>DLCP</td><td>Digital Leadership Certificate Program</td>
+      </tr>
+      <tr data-id="FUTR" data-name="Leading an AI Powered Future">
+        <td><input type="radio" name="sel" aria-label="Select FUTR"></td><td>FUTR</td><td>Leading an AI Powered Future</td>
+      </tr>
+      <tr data-id="EINN" data-name="Introduction to Innovation: Everyone is an Innovator">
+        <td><input type="radio" name="sel" aria-label="Select EINN"></td><td>EINN</td><td>Introduction to Innovation: Everyone is an Innovator</td>
+      </tr>
+      <tr data-id="INTO" data-name="Innovation Tournaments and the Process View">
+        <td><input type="radio" name="sel" aria-label="Select INTO"></td><td>INTO</td><td>Innovation Tournaments and the Process View</td>
+      </tr>
+      <tr data-id="DETK" data-name="Design Thinking: Developing the Solution Concept">
+        <td><input type="radio" name="sel" aria-label="Select DETK"></td><td>DETK</td><td>Design Thinking: Developing the Solution Concept</td>
+      </tr>
+      <tr data-id="ISDT" data-name="Innovation Strategy and Design Thinking Certificate">
+        <td><input type="radio" name="sel" aria-label="Select ISDT"></td><td>ISDT</td><td>Innovation Strategy and Design Thinking Certificate</td>
+      </tr>
+      <tr data-id="MASC" data-name="Marketing Analytics: Data Tools and Techniques">
+        <td><input type="radio" name="sel" aria-label="Select MASC"></td><td>MASC</td><td>Marketing Analytics: Data Tools and Techniques</td>
+      </tr>
+      <tr data-id="SISC" data-name="Selling Ideas: How to Influence Others, and Get Your Message to Catch On">
+        <td><input type="radio" name="sel" aria-label="Select SISC"></td><td>SISC</td><td>Selling Ideas: How to Influence Others, and Get Your Message to Catch On</td>
+      </tr>
+      <tr data-id="FDMS" data-name="Fundamentals of Digital Marketing, Social Media, and E-Commerce">
+        <td><input type="radio" name="sel" aria-label="Select FDMS"></td><td>FDMS</td><td>Fundamentals of Digital Marketing, Social Media, and E-Commerce</td>
+      </tr>
+      <tr data-id="BSCA" data-name="Business Strategy from Wharton: Competitive Advantage">
+        <td><input type="radio" name="sel" aria-label="Select BSCA"></td><td>BSCA</td><td>Business Strategy from Wharton: Competitive Advantage</td>
+      </tr>
+      <tr data-id="MVCR" data-name="Managing the Value of Customer Relationships">
+        <td><input type="radio" name="sel" aria-label="Select MVCR"></td><td>MVCR</td><td>Managing the Value of Customer Relationships</td>
+      </tr>
+      <tr data-id="LASC" data-name="Leadership in the Age of Digital Disruption">
+        <td><input type="radio" name="sel" aria-label="Select LASC"></td><td>LASC</td><td>Leadership in the Age of Digital Disruption</td>
+      </tr>
+      <tr data-id="AASC" data-name="Asset Allocation">
+        <td><input type="radio" name="sel" aria-label="Select AASC (duplicate)"></td><td>AASC</td><td>Asset Allocation</td>
+      </tr>
+    </tbody>
+  </table>
+
+
+  <script>
+    // ---- CONFIG ----
+    const BASE_URL = "https://wharton-enterprise--uat.sandbox.my.site.com/online/s/course?courseId=";
+
+    // ---- LOGIC ----
+    const table = document.getElementById("courseTable");
+    const urlOut = document.getElementById("urlOut");
+    const copyBtn = document.getElementById("copyBtn");
+    const statusEl = document.getElementById("status");
+    const baseUrlLabel = document.getElementById("baseUrlLabel");
+
+    baseUrlLabel.textContent = BASE_URL;
+
+    function setSelectedRow(tr) {
+      [...table.querySelectorAll("tbody tr")].forEach(r => r.classList.remove("selected"));
+      tr.classList.add("selected");
+
+      const radio = tr.querySelector('input[type="radio"]');
+      if (radio) radio.checked = true;
+
+      const id = tr.dataset.id || "";
+      // encodeURIComponent keeps it safe if IDs ever include special chars
+      urlOut.value = BASE_URL + encodeURIComponent(id);
+
+      statusEl.textContent = "";
+    }
+
+    table.addEventListener("click", (e) => {
+      const tr = e.target.closest("tr");
+      if (!tr || !tr.dataset.id) return;
+      setSelectedRow(tr);
+    });
+
+    copyBtn.addEventListener("click", async () => {
+      try {
+        await navigator.clipboard.writeText(urlOut.value);
+        statusEl.textContent = "Copied!";
+        setTimeout(() => statusEl.textContent = "", 1200);
+      } catch {
+        urlOut.focus();
+        urlOut.select();
+        statusEl.textContent = "Press Ctrl/Cmd+C to copy";
+        setTimeout(() => statusEl.textContent = "", 2000);
+      }
+    });
+
+    // Auto-select first row
+    const firstRow = table.querySelector("tbody tr");
+    if (firstRow) setSelectedRow(firstRow);
+  </script>
+</body>
+</html>
